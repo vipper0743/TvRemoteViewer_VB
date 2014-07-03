@@ -37,6 +37,7 @@ Class WebRemocon
     Public _hlsOpt1 As String = Nothing
     Public _hlsOpt2 As String = Nothing
     Public _BonDriverPath As String = Nothing
+    Public _ShowConsole As Boolean = Nothing
 
     '変更されたら再起動が必要なパラメーター
     Private _udpPort As Integer = Nothing
@@ -54,7 +55,7 @@ Class WebRemocon
         Public opt As String 'VLCオプション文字列
     End Structure
 
-    Public Sub New(udpApp As String, udpPort As Integer, chSpace As Integer, hlsApp As String, hlsOpt1 As String, hlsOpt2 As String, wwwroot As String, fileroot As String, wwwport As Integer, BonDriverPath As String)
+    Public Sub New(udpApp As String, udpPort As Integer, chSpace As Integer, hlsApp As String, hlsOpt1 As String, hlsOpt2 As String, wwwroot As String, fileroot As String, wwwport As Integer, BonDriverPath As String, ShowConsole As Boolean)
         'Public Sub New(udpPort As Integer, wwwroot As String, wwwport As Integer) ', num As Integer)
         '初期化 
 
@@ -78,6 +79,7 @@ Class WebRemocon
         Me._hlsOpt2 = hlsOpt2
         Me._chSpace = chSpace
         Me._BonDriverPath = BonDriverPath
+        Me._ShowConsole = ShowConsole
 
         'VLCオプションを読み込む
         Me.read_vlc_option()
@@ -193,7 +195,7 @@ Class WebRemocon
                     'パラメーターが正しいかチェック
                     If num > 0 And bondriver.Length > 0 And Val(sid) > 0 And Val(chspace) >= 0 Then
                         '正しければ配信スタート
-                        Me.start_movie(num, bondriver, Val(sid), Val(chspace), Me._udpApp, Me._hlsApp, Me._hlsOpt1, Me._hlsOpt2, Me._wwwroot, Me._fileroot, Me._hlsroot, resolution)
+                        Me.start_movie(num, bondriver, Val(sid), Val(chspace), Me._udpApp, Me._hlsApp, Me._hlsOpt1, Me._hlsOpt2, Me._wwwroot, Me._fileroot, Me._ShowConsole, Me._hlsroot, resolution)
                     Else
                         StartTv_param = -1
                     End If
@@ -353,7 +355,7 @@ Class WebRemocon
     End Sub
 
     '映像配信開始
-    Public Sub start_movie(ByVal num As Integer, ByVal bondriver As String, ByVal sid As Integer, ByVal ChSpace As Integer, ByVal udpApp As String, ByVal hlsApp As String, hlsOpt1 As String, ByVal hlsOpt2 As String, ByVal wwwroot As String, ByVal fileroot As String, ByVal hlsroot As String, Optional ByVal resolution As String = Nothing)
+    Public Sub start_movie(ByVal num As Integer, ByVal bondriver As String, ByVal sid As Integer, ByVal ChSpace As Integer, ByVal udpApp As String, ByVal hlsApp As String, hlsOpt1 As String, ByVal hlsOpt2 As String, ByVal wwwroot As String, ByVal fileroot As String, ByVal hlsroot As String, ByVal ShowConsole As Boolean, Optional ByVal resolution As String = Nothing)
         'resolutionの指定が無ければフォーム上のHLSオプションを使用する
 
         If fileroot.Length = 0 Then
@@ -424,7 +426,7 @@ Class WebRemocon
 
         Directory.SetCurrentDirectory(fileroot) 'カレントディレクトリ変更
         '★プロセスを起動
-        Me._procMan.startProc(udpApp, udpOpt, hlsApp, hlsOpt, num, udpPortNumber)
+        Me._procMan.startProc(udpApp, udpOpt, hlsApp, hlsOpt, num, udpPortNumber, ShowConsole)
     End Sub
 
     'HLS_option.txtから解像度とHLSオプションを読み込む
@@ -484,6 +486,12 @@ Class WebRemocon
         Me._procMan.stopProcName(name)
     End Sub
 
+    '現在稼働中のストリームナンバーを取得
+    Public Function get_live_numbers() As String
+        Dim r As String
+        r = Me._procMan.get_live_numbers()
+        Return r
+    End Function
 End Class
 
 

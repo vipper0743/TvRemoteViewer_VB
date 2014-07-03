@@ -49,7 +49,7 @@ Public Class ProcessManager
         Return r
     End Function
 
-    Public Sub startProc(udpApp As String, udpOpt As String, hlsApp As String, hlsOpt As String, num As Integer, udpPort As Integer)
+    Public Sub startProc(udpApp As String, udpOpt As String, hlsApp As String, hlsOpt As String, num As Integer, udpPort As Integer, ShowConsole As Integer)
         '★起動している場合は既存のプロセスを止める
         stopProc(num)
 
@@ -145,13 +145,19 @@ Public Class ProcessManager
                 hlsPsi.FileName = hlsApp
                 'コマンドライン引数を指定する
                 hlsPsi.Arguments = hlsOpt
+                If ShowConsole = False Then
+                    ' コンソール・ウィンドウを開かない
+                    hlsPsi.CreateNoWindow = True
+                    ' シェル機能を使用しない
+                    hlsPsi.UseShellExecute = False
+                End If
                 'アプリケーションを起動する
                 Dim hlsProc As System.Diagnostics.Process = System.Diagnostics.Process.Start(hlsPsi)
 
                 log1write("No.=" & num & "のHLSアプリを起動しました。handle=" & hlsProc.Handle.ToString)
 
                 'Dim pb As New ProcessBean(udpProc, hlsProc, num, pipeIndex)'↓再起動用にパラメーターを渡しておく
-                Dim pb As New ProcessBean(udpProc, hlsProc, num, pipeIndex, udpApp, udpOpt, hlsApp, hlsOpt, udpPort)
+                Dim pb As New ProcessBean(udpProc, hlsProc, num, pipeIndex, udpApp, udpOpt, hlsApp, hlsOpt, udpPort, ShowConsole)
                 Me._list.Add(pb)
             Else
                 Try
@@ -226,11 +232,12 @@ Public Class ProcessManager
                     Dim p4 As String = Me._list(i)._hlsOpt
                     Dim p5 As Integer = Me._list(i)._num
                     Dim p6 As Integer = Me._list(i)._udpPort
+                    Dim p7 As Boolean = Me._list(i)._ShowConsole
                     'プロセスを停止
                     stopProc(p5)
                     'System.Threading.Thread.Sleep(500)
                     'プロセスを開始
-                    startProc(p1, p2, p3, p4, p5, p6)
+                    startProc(p1, p2, p3, p4, p5, p6, p7)
                     log1write("No.=" & p5 & "のプロセスを再起動しました")
                 End If
             End If

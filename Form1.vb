@@ -1,7 +1,7 @@
 ﻿Imports System.Threading
 
 Public Class Form1
-    Private version As String = "TvRemoteViewer_VB version 0.02"
+    Private version As String = "TvRemoteViewer_VB version 0.03"
 
     '指定語句が含まれるBonDriverは無視する
     Private BonDriver_NGword As String() = {"_file", "_udp", "_pipe"}
@@ -34,10 +34,11 @@ Public Class Form1
             Dim wwwroot As String = TextBoxWWWroot.Text.ToString
             Dim fileroot As String = TextBoxFILEROOT.Text.ToString
             Dim s() As String = ComboBoxServiceID.Text.Split(",")
+            Dim ShowConsole As Boolean = CheckBoxShowConsole.Checked
             If bondriver.IndexOf(".dll") > 0 Then
                 If s.Length = 3 Then
                     sid = Val(s(1))
-                    Me._worker.start_movie(num, bondriver, sid, chspace, udpApp, hlsApp, hlsOpt1, hlsOpt2, wwwroot, fileroot, hlsroot)
+                    Me._worker.start_movie(num, bondriver, sid, chspace, udpApp, hlsApp, hlsOpt1, hlsOpt2, wwwroot, fileroot, hlsroot, ShowConsole)
                 Else
                     MsgBox("サービスIDを指定してください")
                 End If
@@ -74,6 +75,25 @@ Public Class Form1
                 chk_timer1_deleteTS = 0
             End If
             chk_timer1_deleteTS += 1
+
+            '現在稼働中のストリームをタスクトレイアイコンのマウスオーバー時に表示する
+            Dim s As String = Me._worker.get_live_numbers()
+            If s.Length > 1 Then
+                LabelStream.Text = "配信中：" & s 'ついでにフォーム上にも表示
+                s = "TvRemoteViewer_VB" & vbCrLf & "配信中：" & Trim(s)
+            Else
+                LabelStream.Text = " " 'ついでにフォーム上にも表示
+                s = "TvRemoteViewer_VB"
+            End If
+            If s.Length > 60 Then
+                '64文字を超えるとエラーになる
+                s = s.Substring(0, 60) & ".."
+            End If
+            Try
+                NotifyIcon1.Text = s
+            Catch ex As Exception
+                NotifyIcon1.Text = "TvRemoteViewer_VB"
+            End Try
 
             chk_timer1 = 0
         End If
@@ -164,9 +184,10 @@ Public Class Form1
         Dim wwwport As Integer = Val(Me.textHttpPortNumber.Text.ToString)
         Dim num As Integer = Val(Me.ComboBoxNum.Text.ToString)
         Dim BonDriverPath As String = Me.TextBoxBonDriverPath.Text.ToString
+        Dim ShowConsole As Boolean = Me.CheckBoxShowConsole.Checked
 
         Me.ButtonWebStart.Enabled = False
-        Me._worker = New WebRemocon(udpApp, udpPort, chSpace, hlsApp, hlsOpt1, hlsOpt2, wwwroot, fileroot, wwwport, BonDriverPath)
+        Me._worker = New WebRemocon(udpApp, udpPort, chSpace, hlsApp, hlsOpt1, hlsOpt2, wwwroot, fileroot, wwwport, BonDriverPath, ShowConsole)
         Me._webThread = New Thread(New ThreadStart(AddressOf Me._worker.Web_Start))
         Me._webThread.Start()
         Me.ButtonWebStop.Enabled = True
@@ -298,6 +319,8 @@ Public Class Form1
                             ServiceID_temp = lr(1)
                         Case "ComboBoxResolution"
                             ComboBoxResolution.Text = lr(1)
+                        Case "CheckBoxShowConsole"
+                            CheckBoxShowConsole.Checked = lr(1)
                     End Select
                 ElseIf lr.Length > 2 And trim8(lr(0)) = "textBoxHlsOpt" Then
                     'VLC OPTION
@@ -347,6 +370,7 @@ Public Class Form1
         s &= "ComboBoxServiceID=" & ComboBoxServiceID.Text & vbCrLf
         s &= "ComboBoxResolution=" & ComboBoxResolution.Text & vbCrLf
         s &= "textBoxHlsOpt=" & textBoxHlsOpt2.Text & vbCrLf
+        s &= "CheckBoxShowConsole=" & CheckBoxShowConsole.Checked & vbCrLf
 
         'カレントディレクトリ変更
         F_set_ppath4program()
@@ -674,6 +698,14 @@ Public Class Form1
     Private Sub TextBoxChSpace_TextChanged(sender As System.Object, e As System.EventArgs) Handles TextBoxChSpace.TextChanged
         Try
             Me._worker._chSpace = TextBoxChSpace.Text.ToString
+        Catch ex As Exception
+        End Try
+    End Sub
+
+    '項目が変更されたことをインスタンスに知らせる
+    Private Sub CheckBoxShowConsole_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CheckBoxShowConsole.CheckedChanged
+        Try
+            Me._worker._ShowConsole = CheckBoxShowConsole.Checked
         Catch ex As Exception
         End Try
     End Sub

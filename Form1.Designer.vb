@@ -72,7 +72,8 @@ Partial Class Form1
         Me.NotifyIcon1 = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.終了ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Button3 = New System.Windows.Forms.Button()
+        Me.CheckBoxShowConsole = New System.Windows.Forms.CheckBox()
+        Me.LabelStream = New System.Windows.Forms.Label()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -106,7 +107,7 @@ Partial Class Form1
         'labelHlsOpt2
         '
         Me.labelHlsOpt2.AutoSize = True
-        Me.labelHlsOpt2.Location = New System.Drawing.Point(12, 261)
+        Me.labelHlsOpt2.Location = New System.Drawing.Point(8, 261)
         Me.labelHlsOpt2.Name = "labelHlsOpt2"
         Me.labelHlsOpt2.Size = New System.Drawing.Size(73, 12)
         Me.labelHlsOpt2.TabIndex = 26
@@ -122,7 +123,7 @@ Partial Class Form1
         'labelHlsApp
         '
         Me.labelHlsApp.AutoSize = True
-        Me.labelHlsApp.Location = New System.Drawing.Point(12, 236)
+        Me.labelHlsApp.Location = New System.Drawing.Point(8, 236)
         Me.labelHlsApp.Name = "labelHlsApp"
         Me.labelHlsApp.Size = New System.Drawing.Size(51, 12)
         Me.labelHlsApp.TabIndex = 29
@@ -138,7 +139,7 @@ Partial Class Form1
         'labelUdpApp
         '
         Me.labelUdpApp.AutoSize = True
-        Me.labelUdpApp.Location = New System.Drawing.Point(11, 142)
+        Me.labelUdpApp.Location = New System.Drawing.Point(7, 142)
         Me.labelUdpApp.Name = "labelUdpApp"
         Me.labelUdpApp.Size = New System.Drawing.Size(53, 12)
         Me.labelUdpApp.TabIndex = 27
@@ -155,7 +156,7 @@ Partial Class Form1
         'labelPortNuber
         '
         Me.labelPortNuber.AutoSize = True
-        Me.labelPortNuber.Location = New System.Drawing.Point(10, 83)
+        Me.labelPortNuber.Location = New System.Drawing.Point(6, 83)
         Me.labelPortNuber.Name = "labelPortNuber"
         Me.labelPortNuber.Size = New System.Drawing.Size(80, 12)
         Me.labelPortNuber.TabIndex = 21
@@ -225,7 +226,7 @@ Partial Class Form1
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(10, 192)
+        Me.Label2.Location = New System.Drawing.Point(6, 192)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(74, 12)
         Me.Label2.TabIndex = 54
@@ -242,7 +243,7 @@ Partial Class Form1
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(10, 472)
+        Me.Label3.Location = New System.Drawing.Point(8, 472)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(47, 12)
         Me.Label3.TabIndex = 56
@@ -267,7 +268,7 @@ Partial Class Form1
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(11, 33)
+        Me.Label4.Location = New System.Drawing.Point(7, 33)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(93, 12)
         Me.Label4.TabIndex = 61
@@ -285,7 +286,7 @@ Partial Class Form1
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(12, 447)
+        Me.Label5.Location = New System.Drawing.Point(8, 447)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(56, 12)
         Me.Label5.TabIndex = 65
@@ -294,7 +295,7 @@ Partial Class Form1
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(12, 497)
+        Me.Label6.Location = New System.Drawing.Point(8, 497)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(54, 12)
         Me.Label6.TabIndex = 66
@@ -303,11 +304,11 @@ Partial Class Form1
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(12, 421)
+        Me.Label7.Location = New System.Drawing.Point(8, 421)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(44, 12)
+        Me.Label7.Size = New System.Drawing.Size(92, 12)
         Me.Label7.TabIndex = 67
-        Me.Label7.Text = "Number"
+        Me.Label7.Text = "ストリーム Number"
         '
         'ButtonBonDriverPath
         '
@@ -328,7 +329,7 @@ Partial Class Form1
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(11, 167)
+        Me.Label8.Location = New System.Drawing.Point(7, 167)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(83, 12)
         Me.Label8.TabIndex = 70
@@ -444,7 +445,7 @@ Partial Class Form1
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(11, 58)
+        Me.Label1.Location = New System.Drawing.Point(7, 58)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(89, 12)
         Me.Label1.TabIndex = 84
@@ -470,21 +471,32 @@ Partial Class Form1
         Me.終了ToolStripMenuItem.Size = New System.Drawing.Size(75, 22)
         Me.終了ToolStripMenuItem.Text = "終了"
         '
-        'Button3
+        'CheckBoxShowConsole
         '
-        Me.Button3.Location = New System.Drawing.Point(423, 196)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(75, 23)
-        Me.Button3.TabIndex = 85
-        Me.Button3.Text = "test"
-        Me.Button3.UseVisualStyleBackColor = True
+        Me.CheckBoxShowConsole.AutoSize = True
+        Me.CheckBoxShowConsole.Location = New System.Drawing.Point(395, 458)
+        Me.CheckBoxShowConsole.Name = "CheckBoxShowConsole"
+        Me.CheckBoxShowConsole.Size = New System.Drawing.Size(122, 16)
+        Me.CheckBoxShowConsole.TabIndex = 86
+        Me.CheckBoxShowConsole.Text = "コンソールを表示する"
+        Me.CheckBoxShowConsole.UseVisualStyleBackColor = True
+        '
+        'LabelStream
+        '
+        Me.LabelStream.AutoSize = True
+        Me.LabelStream.Location = New System.Drawing.Point(165, 422)
+        Me.LabelStream.Name = "LabelStream"
+        Me.LabelStream.Size = New System.Drawing.Size(47, 12)
+        Me.LabelStream.TabIndex = 88
+        Me.LabelStream.Text = "配信中："
         '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(529, 665)
-        Me.Controls.Add(Me.Button3)
+        Me.Controls.Add(Me.LabelStream)
+        Me.Controls.Add(Me.CheckBoxShowConsole)
         Me.Controls.Add(Me.ButtonFILEROOT)
         Me.Controls.Add(Me.TextBoxFILEROOT)
         Me.Controls.Add(Me.Label1)
@@ -528,6 +540,7 @@ Partial Class Form1
         Me.Controls.Add(Me.textHttpPortNumber)
         Me.Controls.Add(Me.labelPortNuber)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.MaximumSize = New System.Drawing.Size(545, 702)
         Me.Name = "Form1"
         Me.ShowInTaskbar = False
         Me.Text = "TvRemoteViewer_VB"
@@ -585,6 +598,7 @@ Partial Class Form1
     Friend WithEvents NotifyIcon1 As System.Windows.Forms.NotifyIcon
     Friend WithEvents ContextMenuStrip1 As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents 終了ToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents Button3 As System.Windows.Forms.Button
+    Friend WithEvents CheckBoxShowConsole As System.Windows.Forms.CheckBox
+    Private WithEvents LabelStream As System.Windows.Forms.Label
 
 End Class
