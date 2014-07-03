@@ -195,7 +195,7 @@ Class WebRemocon
                     'パラメーターが正しいかチェック
                     If num > 0 And bondriver.Length > 0 And Val(sid) > 0 And Val(chspace) >= 0 Then
                         '正しければ配信スタート
-                        Me.start_movie(num, bondriver, Val(sid), Val(chspace), Me._udpApp, Me._hlsApp, Me._hlsOpt1, Me._hlsOpt2, Me._wwwroot, Me._fileroot, Me._ShowConsole, Me._hlsroot, resolution)
+                        Me.start_movie(num, bondriver, Val(sid), Val(chspace), Me._udpApp, Me._hlsApp, Me._hlsOpt1, Me._hlsOpt2, Me._wwwroot, Me._fileroot, Me._hlsroot, Me._ShowConsole, resolution)
                     Else
                         StartTv_param = -1
                     End If
